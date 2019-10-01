@@ -1,6 +1,9 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:github_following/Models/User.dart';
 import 'package:github_following/Providers/UserProvider.dart';
+import 'package:github_following/Requests/GithubRequest.dart';
 import 'package:provider/provider.dart';
 
 class FollowingScreen extends StatefulWidget {
@@ -17,6 +20,13 @@ class _FollowingScreenState extends State<FollowingScreen> {
     final userProvider = Provider.of<UserProvider>(context);
     setState(() {
       user = userProvider.getUser();
+
+      Github(user.login).fetchFollowing().then((following) {
+        Iterable list = jsonDecode(following.body);
+        setState(() {
+          users = list.map((model) => User.fromJson(model)).toList();
+        });
+      });
     });
 
     return Scaffold(
@@ -33,6 +43,7 @@ class _FollowingScreenState extends State<FollowingScreen> {
               backgroundColor: Colors.white,
               expandedHeight: 200,
               flexibleSpace: FlexibleSpaceBar(
+                collapseMode: CollapseMode.pin,
                 background: Column(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: <Widget>[
@@ -54,6 +65,17 @@ class _FollowingScreenState extends State<FollowingScreen> {
                     )
                   ],
                 ),
+              ),
+            ),
+            SliverList(
+              delegate: SliverChildListDelegate(
+                [
+                  Container(
+                    height: 600,
+                    child: Container(
+                        child: Align(child: Text('Data is loading...'))),
+                  )
+                ],
               ),
             )
           ],
