@@ -1,6 +1,15 @@
 import 'package:flutter/material.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
+  @override
+  _HomeScreenState createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  TextEditingController _controller = TextEditingController();
+
+  void _getUser() {}
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -42,6 +51,7 @@ class HomeScreen extends StatelessWidget {
                   color: Colors.white.withOpacity(.1),
                 ),
                 child: TextField(
+                  controller: _controller,
                   style: TextStyle(color: Colors.white),
                   decoration: InputDecoration(
                     border: InputBorder.none,
@@ -50,6 +60,23 @@ class HomeScreen extends StatelessWidget {
                   ),
                 ),
               ),
+              SizedBox(
+                height: 20,
+              ),
+              MaterialButton(
+                padding: EdgeInsets.all(20),
+                color: Colors.pink,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: Align(
+                  child: Text(
+                    "Get's Your Following Now",
+                    style: TextStyle(color: Colors.white),
+                  ),
+                ),
+                onPressed: () => _getUser,
+              )
             ],
           ),
         ),
