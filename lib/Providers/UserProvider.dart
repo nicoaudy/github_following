@@ -19,8 +19,6 @@ class UserProvider with ChangeNotifier {
         setMessage(result['message']);
       }
     });
-
-    if(isUser())
   }
 
   void setLoading(payload) {
@@ -53,5 +51,4 @@ class UserProvider with ChangeNotifier {
   bool isUser() {
     return user != null ? true : false;
   }
-
 }

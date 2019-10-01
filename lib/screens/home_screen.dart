@@ -74,6 +74,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   enabled: !userProvider.isLoading(),
                   style: TextStyle(color: Colors.white),
                   decoration: InputDecoration(
+                    errorText: userProvider.getMessage(),
                     border: InputBorder.none,
                     hintText: "Github Username",
                     hintStyle: TextStyle(color: Colors.grey),
@@ -95,7 +96,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     style: TextStyle(color: Colors.white),
                   ),
                 ),
-                onPressed: () => _getUser,
+                onPressed: _getUser,
               )
             ],
           ),
