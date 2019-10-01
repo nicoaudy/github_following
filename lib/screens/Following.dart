@@ -36,9 +36,14 @@ class _FollowingScreenState extends State<FollowingScreen> {
           slivers: <Widget>[
             SliverAppBar(
               brightness: Brightness.light,
-              leading: Icon(
-                Icons.arrow_back_ios,
-                color: Colors.grey,
+              leading: IconButton(
+                icon: Icon(
+                  Icons.arrow_back_ios,
+                  color: Colors.grey,
+                ),
+                onPressed: () {
+                  Navigator.pop(context);
+                },
               ),
               backgroundColor: Colors.white,
               expandedHeight: 200,
@@ -72,8 +77,58 @@ class _FollowingScreenState extends State<FollowingScreen> {
                 [
                   Container(
                     height: 600,
-                    child: Container(
-                        child: Align(child: Text('Data is loading...'))),
+                    child: users != null
+                        ? ListView.builder(
+                            scrollDirection: Axis.vertical,
+                            itemCount: users.length,
+                            itemBuilder: (context, index) {
+                              return Container(
+                                padding: EdgeInsets.all(15),
+                                decoration: BoxDecoration(
+                                  border: Border(
+                                    bottom: BorderSide(
+                                      color: Colors.grey[200],
+                                    ),
+                                  ),
+                                ),
+                                child: Row(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: <Widget>[
+                                    Row(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      children: <Widget>[
+                                        Container(
+                                          width: 60,
+                                          height: 60,
+                                          child: CircleAvatar(
+                                            backgroundImage: NetworkImage(
+                                                users[index].avatar_url),
+                                          ),
+                                        ),
+                                        SizedBox(width: 10),
+                                        Text(
+                                          users[index].login,
+                                          style: TextStyle(
+                                            fontSize: 20,
+                                            color: Colors.grey[700],
+                                          ),
+                                        )
+                                      ],
+                                    ),
+                                    Text(
+                                      "Following",
+                                      style: TextStyle(color: Colors.pink),
+                                    )
+                                  ],
+                                ),
+                              );
+                            },
+                          )
+                        : Container(
+                            child: Align(child: Text('Data is loading...'))),
                   )
                 ],
               ),
