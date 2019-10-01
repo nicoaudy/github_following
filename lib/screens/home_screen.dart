@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:github_following/Providers/UserProvider.dart';
+import 'package:github_following/screens/Following.dart';
+import 'package:provider/provider.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -8,10 +11,23 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   TextEditingController _controller = TextEditingController();
 
-  void _getUser() {}
-
   @override
   Widget build(BuildContext context) {
+    final userProvider = Provider.of<UserProvider>(context);
+
+    void _getUser() {
+      if (_controller.text == '') {
+        userProvider.setMessage('Please enter your name');
+      } else {
+        userProvider.fetchUser(_controller.text).then((value) {
+          if (value) {
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => FollowingScreen()));
+          }
+        });
+      }
+    }
+
     return Scaffold(
       body: Container(
         color: Colors.black,
@@ -51,7 +67,11 @@ class _HomeScreenState extends State<HomeScreen> {
                   color: Colors.white.withOpacity(.1),
                 ),
                 child: TextField(
+                  onChanged: (value) {
+                    userProvider.setMessage(null);
+                  },
                   controller: _controller,
+                  enabled: !userProvider.isLoading(),
                   style: TextStyle(color: Colors.white),
                   decoration: InputDecoration(
                     border: InputBorder.none,
