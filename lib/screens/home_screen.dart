@@ -91,12 +91,19 @@ class _HomeScreenState extends State<HomeScreen> {
                   borderRadius: BorderRadius.circular(10),
                 ),
                 child: Align(
-                  child: Text(
-                    "Get's Your Following Now",
-                    style: TextStyle(color: Colors.white),
-                  ),
+                  child: userProvider.isLoading()
+                      ? CircularProgressIndicator(
+                          backgroundColor: Colors.white,
+                          strokeWidth: 2,
+                        )
+                      : Text(
+                          "Get's Your Following Now",
+                          style: TextStyle(color: Colors.white),
+                        ),
                 ),
-                onPressed: _getUser,
+                onPressed: () {
+                  _getUser();
+                },
               )
             ],
           ),

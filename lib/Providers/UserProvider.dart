@@ -11,14 +11,20 @@ class UserProvider with ChangeNotifier {
 
   Future<bool> fetchUser(username) async {
     setLoading(true);
+
     await Github(username).fetchUser().then((data) {
+      setLoading(false);
+
       if (data.statusCode == 200) {
         setUser(User.fromJson(json.decode(data.body)));
       } else {
+        print(data.body);
         Map<String, dynamic> result = json.decode(data.body);
         setMessage(result['message']);
       }
     });
+
+    return isUser();
   }
 
   void setLoading(payload) {
